@@ -1,18 +1,71 @@
-
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>💕 Болзоо</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-.app{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fce4ec 0%,#fce4f8 50%,#e8eaf6 100%);min-height:600px;padding:1.4rem 1rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overscroll-behavior:none}
+body{
+  font-family:'Nunito',sans-serif;
+  background:linear-gradient(160deg,#fce4ec 0%,#fce4f8 50%,#e8eaf6 100%);
+  min-height:100vh;
+  min-height:100dvh;
+  padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) env(safe-area-inset-bottom,0) env(safe-area-inset-left,0);
+}
+.app{
+  display:flex;flex-direction:column;align-items:center;
+  padding:1.4rem 1rem 2rem;
+  gap:1rem;
+  min-height:100vh;
+  min-height:100dvh;
+}
 .screen{display:none;flex-direction:column;align-items:center;gap:1rem;width:100%}
 .screen.active{display:flex}
-.card{background:rgba(255,255,255,0.92);border-radius:22px;padding:1.3rem;width:100%;max-width:340px;border:1.5px solid rgba(212,83,126,0.15)}
-.avatar{width:88px;height:88px;border-radius:50%;background:#fce4ec;border:3px solid #f48fb1;display:flex;align-items:center;justify-content:center;font-size:46px;margin:0 auto 0.8rem;animation:bob 2.5s ease-in-out infinite}
+.card{
+  background:rgba(255,255,255,0.92);
+  border-radius:22px;
+  padding:1.4rem;
+  width:100%;
+  max-width:400px;
+  border:1.5px solid rgba(212,83,126,0.15);
+  box-shadow:0 4px 24px rgba(233,30,140,0.07);
+}
+.avatar{
+  width:96px;height:96px;border-radius:50%;
+  background:#fce4ec;border:3px solid #f48fb1;
+  display:flex;align-items:center;justify-content:center;
+  font-size:50px;margin:0 auto 1rem;
+  animation:bob 2.5s ease-in-out infinite;
+}
 @keyframes bob{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
-.question{font-size:19px;font-weight:900;color:#c2185b;text-align:center;margin-bottom:1.2rem;line-height:1.4}
-.btn-yes{display:block;width:100%;padding:13px;background:#e91e8c;color:#fff;border:none;border-radius:50px;font-size:17px;font-weight:900;font-family:'Nunito',sans-serif;cursor:pointer;margin-bottom:10px;letter-spacing:0.5px;transition:transform 0.1s,background 0.2s}
-.btn-yes:hover{background:#c2185b;transform:scale(1.03)}
-.btn-no{display:inline-block;padding:10px 26px;background:rgba(200,200,200,0.15);color:#aaa;border:1.5px solid #ddd;border-radius:50px;font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;transition:transform 0.18s;position:relative}
-.hint{font-size:11px;color:#e91e8c;margin-top:8px;font-style:italic;opacity:0.7;text-align:center}
+.question{font-size:20px;font-weight:900;color:#c2185b;text-align:center;margin-bottom:1.3rem;line-height:1.4}
+.btn-yes{
+  display:block;width:100%;padding:16px;
+  background:#e91e8c;color:#fff;border:none;border-radius:50px;
+  font-size:18px;font-weight:900;font-family:'Nunito',sans-serif;
+  cursor:pointer;margin-bottom:12px;letter-spacing:0.5px;
+  transition:transform 0.1s,background 0.2s;
+  touch-action:manipulation;
+}
+.btn-yes:active{background:#c2185b;transform:scale(0.97)}
+.no-wrap{text-align:center;overflow:visible;height:52px;display:flex;align-items:center;justify-content:center}
+.btn-no{
+  display:inline-block;padding:12px 30px;
+  background:rgba(200,200,200,0.15);color:#aaa;
+  border:1.5px solid #ddd;border-radius:50px;
+  font-size:14px;font-weight:700;font-family:'Nunito',sans-serif;
+  cursor:pointer;position:relative;
+  transition:transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275);
+  touch-action:manipulation;
+  white-space:nowrap;
+}
+.hint{font-size:11px;color:#e91e8c;margin-top:10px;font-style:italic;opacity:0.7;text-align:center}
 .deco{position:absolute;pointer-events:none;font-size:20px;animation:fl 3s ease-in-out infinite}
 .deco.tl{top:14px;left:14px;animation-delay:0s}
 .deco.tr{top:8px;right:12px;animation-delay:0.7s}
@@ -21,52 +74,88 @@
 @keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .section-lbl{font-size:11px;font-weight:800;color:#f48fb1;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
 .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.cal-nav{background:none;border:none;cursor:pointer;font-size:22px;color:#e91e8c;padding:2px 8px;border-radius:8px;font-family:inherit}
-.cal-nav:hover{background:#fce4ec}
-.cal-month{font-size:14px;font-weight:800;color:#c2185b}
+.cal-nav{
+  background:none;border:none;cursor:pointer;
+  font-size:26px;color:#e91e8c;padding:4px 12px;border-radius:10px;
+  font-family:inherit;touch-action:manipulation;
+  min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;
+}
+.cal-nav:active{background:#fce4ec}
+.cal-month{font-size:15px;font-weight:800;color:#c2185b}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.cal-dow{font-size:10px;font-weight:800;color:#f48fb1;text-align:center;padding:3px 0}
-.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border-radius:50%;cursor:pointer;color:#444;transition:all 0.13s}
-.cal-day:hover{background:#fce4ec;color:#c2185b}
+.cal-dow{font-size:10px;font-weight:800;color:#f48fb1;text-align:center;padding:4px 0}
+.cal-day{
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;border-radius:50%;cursor:pointer;color:#444;
+  transition:all 0.13s;min-height:36px;touch-action:manipulation;
+}
+.cal-day:active{background:#fce4ec}
 .cal-day.sel{background:#e91e8c;color:#fff}
 .cal-day.today{border:2px solid #f48fb1}
-.cal-day.past{color:#ccc;cursor:not-allowed}
-.cal-day.empty{cursor:default}
-.time-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px}
-.tslot{padding:9px;border-radius:12px;border:1.5px solid #f8bbd0;background:#fff;text-align:center;cursor:pointer;font-size:13px;font-weight:700;color:#c2185b;transition:all 0.13s;font-family:'Nunito',sans-serif}
-.tslot:hover{background:#fce4ec;border-color:#e91e8c}
+.cal-day.past{color:#ccc;cursor:not-allowed;pointer-events:none}
+.cal-day.empty{cursor:default;pointer-events:none}
+.time-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.tslot{
+  padding:12px 8px;border-radius:12px;
+  border:1.5px solid #f8bbd0;background:#fff;
+  text-align:center;cursor:pointer;
+  font-size:14px;font-weight:700;color:#c2185b;
+  transition:all 0.13s;font-family:'Nunito',sans-serif;
+  touch-action:manipulation;min-height:44px;
+}
+.tslot:active{background:#fce4ec;border-color:#e91e8c}
 .tslot.sel{background:#e91e8c;color:#fff;border-color:#e91e8c}
-.summary-box{background:#fff5f9;border-radius:14px;border:1.5px solid #f8bbd0;padding:12px 16px;font-size:14px;font-weight:700;color:#c2185b;line-height:1.9;text-align:center;min-height:52px}
+.summary-box{
+  background:#fff5f9;border-radius:14px;border:1.5px solid #f8bbd0;
+  padding:14px 16px;font-size:15px;font-weight:700;color:#c2185b;
+  line-height:2;text-align:center;min-height:56px;
+}
 .summary-box.muted{color:#bbb;font-weight:600;font-size:13px}
-.big-btn{width:100%;padding:13px;background:#e91e8c;color:#fff;border:none;border-radius:50px;font-size:15px;font-weight:900;font-family:'Nunito',sans-serif;cursor:pointer;transition:transform 0.1s,background 0.2s;margin-top:2px}
-.big-btn:hover:not(:disabled){background:#c2185b;transform:scale(1.02)}
+.big-btn{
+  width:100%;padding:16px;background:#e91e8c;color:#fff;border:none;
+  border-radius:50px;font-size:16px;font-weight:900;font-family:'Nunito',sans-serif;
+  cursor:pointer;transition:transform 0.1s,background 0.2s;margin-top:4px;
+  touch-action:manipulation;
+}
+.big-btn:active:not(:disabled){background:#c2185b;transform:scale(0.97)}
 .big-btn:disabled{background:#f8bbd0;cursor:not-allowed}
-.result-wrap{text-align:center;padding:1rem 0.5rem}
-.result-deco{font-size:26px;letter-spacing:8px;margin-bottom:0.8rem}
-.result-title{font-size:22px;font-weight:900;color:#e91e8c;margin-bottom:0.5rem}
-.result-detail{background:#fce4ec;border-radius:16px;padding:12px 16px;font-size:14px;font-weight:700;color:#c2185b;line-height:1.9;margin-bottom:1rem}
-.back-btn{background:none;border:1.5px solid #f48fb1;border-radius:50px;padding:10px 24px;font-size:13px;font-weight:800;color:#e91e8c;cursor:pointer;font-family:'Nunito',sans-serif;transition:background 0.15s}
-.back-btn:hover{background:#fce4ec}
+.result-wrap{text-align:center;padding:1.2rem 0.5rem}
+.result-deco{font-size:28px;letter-spacing:8px;margin-bottom:1rem}
+.result-title{font-size:24px;font-weight:900;color:#e91e8c;margin-bottom:0.6rem}
+.result-detail{
+  background:#fce4ec;border-radius:16px;padding:14px 16px;
+  font-size:15px;font-weight:700;color:#c2185b;line-height:2;margin-bottom:1.2rem;
+}
+.back-btn{
+  background:none;border:1.5px solid #f48fb1;border-radius:50px;
+  padding:12px 28px;font-size:14px;font-weight:800;color:#e91e8c;
+  cursor:pointer;font-family:'Nunito',sans-serif;
+  touch-action:manipulation;min-height:44px;
+}
+.back-btn:active{background:#fce4ec}
 </style>
-
+</head>
+<body>
 <div class="app" id="app">
 
+  <!-- Дэлгэц 1: Асуулт -->
   <div class="screen active" id="s1">
-    <div class="card" style="position:relative;text-align:center">
+    <div class="card" style="position:relative;text-align:center;margin-top:2rem">
       <span class="deco tl">🌸</span>
       <span class="deco tr">❤️</span>
       <span class="deco bl">✨</span>
       <span class="deco br">🌸</span>
-      <div class="avatar" id="avatar">🐱</div>
-      <div class="question" id="q">🌸 Надтай болзоонд явах уу? 🌸</div>
+      <div class="avatar">🐱</div>
+      <div class="question" id="q">🌸 Марлаа надтай болзоонд явах уу? 🌸</div>
       <button class="btn-yes" id="yesBtn" onclick="goYes()">ТИЙМ 💕</button>
-      <div style="text-align:center">
+      <div class="no-wrap">
         <button class="btn-no" id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo()">Үгүй... 🚗</button>
       </div>
       <div class="hint" id="hint">"Үгүй" товч үргэлж зугтана!</div>
     </div>
   </div>
 
+  <!-- Дэлгэц 2: Өдөр цаг -->
   <div class="screen" id="s2">
     <div class="card" style="position:relative">
       <span class="deco tl" style="top:10px;left:10px">🌸</span>
@@ -95,20 +184,20 @@
     </div>
   </div>
 
+  <!-- Дэлгэц 3: Амжилт -->
   <div class="screen" id="s3">
-    <div class="card">
+    <div class="card" style="margin-top:2rem">
       <div class="result-wrap">
         <div class="result-deco">🌸💕🌸</div>
         <div class="result-title">Болзоо товлогдлоо!</div>
         <div class="result-detail" id="resultDetail"></div>
-        <div style="font-size:34px;letter-spacing:10px;margin-bottom:1.2rem">🥰💖🥰</div>
+        <div style="font-size:36px;letter-spacing:10px;margin-bottom:1.4rem">🥰💖🥰</div>
         <button class="back-btn" onclick="restart()">↩ Дахин эхлэх</button>
       </div>
     </div>
   </div>
 
 </div>
-
 <script>
 const MONTHS=['1-р сар','2-р сар','3-р сар','4-р сар','5-р сар','6-р сар','7-р сар','8-р сар','9-р сар','10-р сар','11-р сар','12-р сар'];
 const DOWS=['Да','Мя','Лх','Пү','Ба','Бя','Ня'];
@@ -119,16 +208,20 @@ const YES=['ТИЙМ 💕','ТИЙМ!!! 💕','ТИЙМ ГЭЖ ХЭЛ! 💕','Т
 const today=new Date();
 let cY=today.getFullYear(),cM=today.getMonth(),selDay=null,selTime=null,noCount=0;
 
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
 
 function moveNo(){
   const btn=document.getElementById('noBtn');
   noCount++;
-  const rx=(Math.random()-0.5)*180,ry=(Math.random()-0.5)*60;
+  const rx=(Math.random()-0.5)*160,ry=(Math.random()-0.5)*50;
   btn.style.transform=`translate(${rx}px,${ry}px)`;
   btn.style.transition='transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275)';
   const yBtn=document.getElementById('yesBtn');
-  const sz=Math.min(17+noCount*1.5,24);
+  const sz=Math.min(18+noCount*1.5,26);
   yBtn.style.fontSize=sz+'px';
   if(noCount<YES.length)yBtn.textContent=YES[noCount];
   if(noCount>=3)document.getElementById('hint').textContent='"Үгүй" гэж хэлэх боломжгүй! 😄';
@@ -163,7 +256,13 @@ function renderCal(){
 function renderTimes(){
   const mk=(times,cid)=>{
     const c=document.getElementById(cid);c.innerHTML='';
-    times.forEach(t=>{const e=document.createElement('button');e.className='tslot'+(selTime===t?' sel':'');e.textContent=t;e.onclick=()=>{selTime=t;renderTimes();updateSummary()};c.appendChild(e)});
+    times.forEach(t=>{
+      const e=document.createElement('button');
+      e.className='tslot'+(selTime===t?' sel':'');
+      e.textContent=t;
+      e.onclick=()=>{selTime=t;renderTimes();updateSummary()};
+      c.appendChild(e);
+    });
   };
   mk(MORN,'tMorn');mk(EVE,'tEve');
 }
@@ -196,9 +295,11 @@ function restart(){
   noCount=0;selDay=null;selTime=null;
   cY=today.getFullYear();cM=today.getMonth();
   document.getElementById('yesBtn').textContent='ТИЙМ 💕';
-  document.getElementById('yesBtn').style.fontSize='17px';
+  document.getElementById('yesBtn').style.fontSize='18px';
   document.getElementById('noBtn').style.transform='';
   document.getElementById('hint').textContent='"Үгүй" товч үргэлж зугтана!';
   show('s1');
 }
 </script>
+</body>
+</html>
