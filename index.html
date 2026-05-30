@@ -1,0 +1,204 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+.app{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fce4ec 0%,#fce4f8 50%,#e8eaf6 100%);min-height:600px;padding:1.4rem 1rem 2rem;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.screen{display:none;flex-direction:column;align-items:center;gap:1rem;width:100%}
+.screen.active{display:flex}
+.card{background:rgba(255,255,255,0.92);border-radius:22px;padding:1.3rem;width:100%;max-width:340px;border:1.5px solid rgba(212,83,126,0.15)}
+.avatar{width:88px;height:88px;border-radius:50%;background:#fce4ec;border:3px solid #f48fb1;display:flex;align-items:center;justify-content:center;font-size:46px;margin:0 auto 0.8rem;animation:bob 2.5s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.question{font-size:19px;font-weight:900;color:#c2185b;text-align:center;margin-bottom:1.2rem;line-height:1.4}
+.btn-yes{display:block;width:100%;padding:13px;background:#e91e8c;color:#fff;border:none;border-radius:50px;font-size:17px;font-weight:900;font-family:'Nunito',sans-serif;cursor:pointer;margin-bottom:10px;letter-spacing:0.5px;transition:transform 0.1s,background 0.2s}
+.btn-yes:hover{background:#c2185b;transform:scale(1.03)}
+.btn-no{display:inline-block;padding:10px 26px;background:rgba(200,200,200,0.15);color:#aaa;border:1.5px solid #ddd;border-radius:50px;font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;transition:transform 0.18s;position:relative}
+.hint{font-size:11px;color:#e91e8c;margin-top:8px;font-style:italic;opacity:0.7;text-align:center}
+.deco{position:absolute;pointer-events:none;font-size:20px;animation:fl 3s ease-in-out infinite}
+.deco.tl{top:14px;left:14px;animation-delay:0s}
+.deco.tr{top:8px;right:12px;animation-delay:0.7s}
+.deco.bl{bottom:50px;left:8px;animation-delay:1.2s}
+.deco.br{bottom:44px;right:8px;animation-delay:0.3s}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.section-lbl{font-size:11px;font-weight:800;color:#f48fb1;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cal-nav{background:none;border:none;cursor:pointer;font-size:22px;color:#e91e8c;padding:2px 8px;border-radius:8px;font-family:inherit}
+.cal-nav:hover{background:#fce4ec}
+.cal-month{font-size:14px;font-weight:800;color:#c2185b}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-dow{font-size:10px;font-weight:800;color:#f48fb1;text-align:center;padding:3px 0}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border-radius:50%;cursor:pointer;color:#444;transition:all 0.13s}
+.cal-day:hover{background:#fce4ec;color:#c2185b}
+.cal-day.sel{background:#e91e8c;color:#fff}
+.cal-day.today{border:2px solid #f48fb1}
+.cal-day.past{color:#ccc;cursor:not-allowed}
+.cal-day.empty{cursor:default}
+.time-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px}
+.tslot{padding:9px;border-radius:12px;border:1.5px solid #f8bbd0;background:#fff;text-align:center;cursor:pointer;font-size:13px;font-weight:700;color:#c2185b;transition:all 0.13s;font-family:'Nunito',sans-serif}
+.tslot:hover{background:#fce4ec;border-color:#e91e8c}
+.tslot.sel{background:#e91e8c;color:#fff;border-color:#e91e8c}
+.summary-box{background:#fff5f9;border-radius:14px;border:1.5px solid #f8bbd0;padding:12px 16px;font-size:14px;font-weight:700;color:#c2185b;line-height:1.9;text-align:center;min-height:52px}
+.summary-box.muted{color:#bbb;font-weight:600;font-size:13px}
+.big-btn{width:100%;padding:13px;background:#e91e8c;color:#fff;border:none;border-radius:50px;font-size:15px;font-weight:900;font-family:'Nunito',sans-serif;cursor:pointer;transition:transform 0.1s,background 0.2s;margin-top:2px}
+.big-btn:hover:not(:disabled){background:#c2185b;transform:scale(1.02)}
+.big-btn:disabled{background:#f8bbd0;cursor:not-allowed}
+.result-wrap{text-align:center;padding:1rem 0.5rem}
+.result-deco{font-size:26px;letter-spacing:8px;margin-bottom:0.8rem}
+.result-title{font-size:22px;font-weight:900;color:#e91e8c;margin-bottom:0.5rem}
+.result-detail{background:#fce4ec;border-radius:16px;padding:12px 16px;font-size:14px;font-weight:700;color:#c2185b;line-height:1.9;margin-bottom:1rem}
+.back-btn{background:none;border:1.5px solid #f48fb1;border-radius:50px;padding:10px 24px;font-size:13px;font-weight:800;color:#e91e8c;cursor:pointer;font-family:'Nunito',sans-serif;transition:background 0.15s}
+.back-btn:hover{background:#fce4ec}
+</style>
+
+<div class="app" id="app">
+
+  <div class="screen active" id="s1">
+    <div class="card" style="position:relative;text-align:center">
+      <span class="deco tl">🌸</span>
+      <span class="deco tr">❤️</span>
+      <span class="deco bl">✨</span>
+      <span class="deco br">🌸</span>
+      <div class="avatar" id="avatar">🐱</div>
+      <div class="question" id="q">🌸 Надтай болзоонд явах уу? 🌸</div>
+      <button class="btn-yes" id="yesBtn" onclick="goYes()">ТИЙМ 💕</button>
+      <div style="text-align:center">
+        <button class="btn-no" id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo()">Үгүй... 🚗</button>
+      </div>
+      <div class="hint" id="hint">"Үгүй" товч үргэлж зугтана!</div>
+    </div>
+  </div>
+
+  <div class="screen" id="s2">
+    <div class="card" style="position:relative">
+      <span class="deco tl" style="top:10px;left:10px">🌸</span>
+      <span class="deco tr" style="top:6px;right:8px">❤️</span>
+      <div style="font-size:12px;font-weight:800;color:#c2185b;letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem">📅 Болзооны өдөр сонгох</div>
+      <div class="cal-header">
+        <button class="cal-nav" onclick="prevM()">‹</button>
+        <div class="cal-month" id="calLbl"></div>
+        <button class="cal-nav" onclick="nextM()">›</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:#c2185b;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">🕐 Цаг сонгох</div>
+      <div class="section-lbl">Өглөө</div>
+      <div class="time-grid" id="tMorn"></div>
+      <div class="section-lbl" style="margin-top:6px">Өдөр / Орой</div>
+      <div class="time-grid" id="tEve"></div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:#c2185b;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">💕 Товлосон цаг</div>
+      <div class="summary-box muted" id="summaryBox">Өдөр болон цаг сонгоно уу</div>
+      <button class="big-btn" id="confirmBtn" disabled onclick="goResult()">Болзоо товлох 💖</button>
+    </div>
+  </div>
+
+  <div class="screen" id="s3">
+    <div class="card">
+      <div class="result-wrap">
+        <div class="result-deco">🌸💕🌸</div>
+        <div class="result-title">Болзоо товлогдлоо!</div>
+        <div class="result-detail" id="resultDetail"></div>
+        <div style="font-size:34px;letter-spacing:10px;margin-bottom:1.2rem">🥰💖🥰</div>
+        <button class="back-btn" onclick="restart()">↩ Дахин эхлэх</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const MONTHS=['1-р сар','2-р сар','3-р сар','4-р сар','5-р сар','6-р сар','7-р сар','8-р сар','9-р сар','10-р сар','11-р сар','12-р сар'];
+const DOWS=['Да','Мя','Лх','Пү','Ба','Бя','Ня'];
+const MORN=['10:00','10:30','11:00','11:30'];
+const EVE=['14:00','16:00','18:00','19:30'];
+const YES=['ТИЙМ 💕','ТИЙМ!!! 💕','ТИЙМ ГЭЖ ХЭЛ! 💕','ТИЙМ ТИЙМ ТИЙМ! 💖','МЭДЭЭЖ ТИЙМ! 💗'];
+
+const today=new Date();
+let cY=today.getFullYear(),cM=today.getMonth(),selDay=null,selTime=null,noCount=0;
+
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+
+function moveNo(){
+  const btn=document.getElementById('noBtn');
+  noCount++;
+  const rx=(Math.random()-0.5)*180,ry=(Math.random()-0.5)*60;
+  btn.style.transform=`translate(${rx}px,${ry}px)`;
+  btn.style.transition='transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275)';
+  const yBtn=document.getElementById('yesBtn');
+  const sz=Math.min(17+noCount*1.5,24);
+  yBtn.style.fontSize=sz+'px';
+  if(noCount<YES.length)yBtn.textContent=YES[noCount];
+  if(noCount>=3)document.getElementById('hint').textContent='"Үгүй" гэж хэлэх боломжгүй! 😄';
+}
+
+function goYes(){show('s2');renderCal();renderTimes()}
+
+function prevM(){if(cM===0){cM=11;cY--}else cM--;renderCal()}
+function nextM(){if(cM===11){cM=0;cY++}else cM++;renderCal()}
+
+function renderCal(){
+  document.getElementById('calLbl').textContent=MONTHS[cM]+' '+cY;
+  const g=document.getElementById('calGrid');
+  g.innerHTML='';
+  DOWS.forEach(d=>{const e=document.createElement('div');e.className='cal-dow';e.textContent=d;g.appendChild(e)});
+  const first=new Date(cY,cM,1).getDay();
+  const start=first===0?6:first-1;
+  const days=new Date(cY,cM+1,0).getDate();
+  for(let i=0;i<start;i++){const e=document.createElement('div');e.className='cal-day empty';g.appendChild(e)}
+  for(let d=1;d<=days;d++){
+    const e=document.createElement('div');
+    const past=new Date(cY,cM,d)<new Date(today.getFullYear(),today.getMonth(),today.getDate());
+    const isToday=d===today.getDate()&&cM===today.getMonth()&&cY===today.getFullYear();
+    const isSel=selDay&&selDay.d===d&&selDay.m===cM&&selDay.y===cY;
+    e.className='cal-day'+(past?' past':'')+(isToday?' today':'')+(isSel?' sel':'');
+    e.textContent=d;
+    if(!past)e.onclick=()=>{selDay={d,m:cM,y:cY};renderCal();updateSummary()};
+    g.appendChild(e);
+  }
+}
+
+function renderTimes(){
+  const mk=(times,cid)=>{
+    const c=document.getElementById(cid);c.innerHTML='';
+    times.forEach(t=>{const e=document.createElement('button');e.className='tslot'+(selTime===t?' sel':'');e.textContent=t;e.onclick=()=>{selTime=t;renderTimes();updateSummary()};c.appendChild(e)});
+  };
+  mk(MORN,'tMorn');mk(EVE,'tEve');
+}
+
+function updateSummary(){
+  const box=document.getElementById('summaryBox');
+  const btn=document.getElementById('confirmBtn');
+  if(selDay&&selTime){
+    box.className='summary-box';
+    box.innerHTML=`📅 ${selDay.y} оны ${MONTHS[selDay.m]} ${selDay.d}-нд<br>🕐 ${selTime} цагт`;
+    btn.disabled=false;
+  }else if(selDay){
+    box.className='summary-box';
+    box.innerHTML=`📅 ${selDay.y} оны ${MONTHS[selDay.m]} ${selDay.d} — цаг сонгоно уу`;
+    btn.disabled=true;
+  }else{
+    box.className='summary-box muted';
+    box.textContent='Өдөр болон цаг сонгоно уу';
+    btn.disabled=true;
+  }
+}
+
+function goResult(){
+  if(!selDay||!selTime)return;
+  document.getElementById('resultDetail').innerHTML=`📅 ${selDay.y} оны ${MONTHS[selDay.m]} ${selDay.d}-нд<br>🕐 ${selTime} цагт<br>📍 Хаана уулзахаа мэдэгдээрэй 💌`;
+  show('s3');
+}
+
+function restart(){
+  noCount=0;selDay=null;selTime=null;
+  cY=today.getFullYear();cM=today.getMonth();
+  document.getElementById('yesBtn').textContent='ТИЙМ 💕';
+  document.getElementById('yesBtn').style.fontSize='17px';
+  document.getElementById('noBtn').style.transform='';
+  document.getElementById('hint').textContent='"Үгүй" товч үргэлж зугтана!';
+  show('s1');
+}
+</script>
